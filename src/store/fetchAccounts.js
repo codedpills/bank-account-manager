@@ -10,16 +10,16 @@ const fetchAccounts = () => {
   return (dispatch) => {
     dispatch(fetchAccountsPending());
     fetch(accountsAPIUrl)
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          throw res.error;
+      .then(
+        (res) => res.json(),
+        (err) => {
+          console.log(`There was an error: ${err}`);
+          dispatch(fetchAccountsError(err));
         }
-        dispatch(fetchAccountsSuccess(res.accounts));
-        return res.accounts;
-      })
-      .catch((error) => {
-        dispatch(fetchAccountsError(error));
+      )
+      .then((accounts) => {
+        console.log(accounts);
+        dispatch(fetchAccountsSuccess(accounts));
       });
   };
 };

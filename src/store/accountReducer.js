@@ -1,6 +1,13 @@
 import { v4 as uuid } from "uuid";
 
-import {  } from "./accountActions";
+import {
+  ADD_ACCOUNT,
+  EDIT_ACCOUNT,
+  DELETE_ACCOUNT,
+  FETCH_ACCOUNTS_PENDING,
+  FETCH_ACCOUNTS_SUCCESS,
+  FETCH_ACCOUNTS_ERROR,
+} from "./accountActions";
 
 const initialState = {
   accounts: [
@@ -25,7 +32,7 @@ const initialState = {
 
 const accountReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_ACCOUNT":
+    case ADD_ACCOUNT:
       const newAccount = {
         id: uuid(),
         account_name: action.account.account_name,
@@ -35,12 +42,12 @@ const accountReducer = (state = initialState, action) => {
         bank_branch: action.account.bank_branch,
       };
       return { ...state, accounts: [...state.accounts, newAccount] };
-    case "DELETE_ACCOUNT":
+    case DELETE_ACCOUNT:
       const filteredAccounts = state.accounts.filter(
         (account) => account.id !== action.id
       );
       return { ...state, accounts: filteredAccounts };
-    case "EDIT_ACCOUNT":
+    case EDIT_ACCOUNT:
       const editedAccounts = state.accounts.map((account) => {
         if (account.id === action.id) {
           return {

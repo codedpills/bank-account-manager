@@ -12,24 +12,7 @@ import {
 const initialState = {
   pending: false,
   error: null,
-  accounts: [
-    {
-      id: "1",
-      account_name: "Mike Tyson",
-      account_number: "122323045455",
-      account_type: "Savings",
-      bank_name: "Unibank",
-      bank_branch: "Accra main",
-    },
-    {
-      id: "2",
-      account_name: "Cristiano Ronaldo",
-      account_number: "122525042411",
-      account_type: "Current",
-      bank_name: "World bank",
-      bank_branch: "New York",
-    },
-  ],
+  accounts: [],
 };
 
 const accountReducer = (state = initialState, action) => {

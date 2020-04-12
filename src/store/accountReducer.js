@@ -10,6 +10,8 @@ import {
 } from "./accountActions";
 
 const initialState = {
+  pending: false,
+  error: null,
   accounts: [
     {
       id: "1",
@@ -32,6 +34,12 @@ const initialState = {
 
 const accountReducer = (state = initialState, action) => {
   switch (action.type) {
+    case FETCH_ACCOUNTS_PENDING:
+      return { ...state, pending: true };
+    case FETCH_ACCOUNTS_SUCCESS:
+      return { ...state, pending: false, accounts: action.accounts };
+    case FETCH_ACCOUNTS_ERROR:
+      return { ...state, pending: false, error: action.error };
     case ADD_ACCOUNT:
       const newAccount = {
         id: uuid(),

@@ -22,7 +22,9 @@ class EditAccount extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.asyncEditAccount(this.id, this.state);
+    this.props.asyncEditAccount(this.id, this.state, () => {
+      this.props.history.goBack();
+    });
     this.setState({
       accountName: "",
       accountNumber: "",
@@ -30,7 +32,6 @@ class EditAccount extends Component {
       bankName: "",
       bankBranch: "",
     });
-    this.props.history.push("/");
   };
   handleGoBack = () => {
     this.props.history.push("/");

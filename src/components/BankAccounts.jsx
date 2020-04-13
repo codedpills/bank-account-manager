@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import AccountInfo from "./AccountInfo";
 import { deleteAccount } from "../store/accountActions";
-import fetchAccounts from "../store/fetchAccounts";
+import { asyncFetchAccounts } from "../store/asyncAccountActions";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
@@ -10,12 +10,12 @@ const BankAccounts = ({
   accounts,
   pending,
   error,
-  fetchAccounts,
+  asyncFetchAccounts,
   deleteAccount,
 }) => {
   useEffect(() => {
-    fetchAccounts();
-  },[]);
+    asyncFetchAccounts();
+  }, []);
   let bankAccounts;
   if (accounts.legnth === 0) {
     return (bankAccounts = <p>There are no accounts yet. Add some!</p>);
@@ -36,7 +36,7 @@ const BankAccounts = ({
     );
   });
   const loader = (
-    <div className="has-text-centered" style={{"marginTop": "3rem"}}>
+    <div className="has-text-centered" style={{ marginTop: "3rem" }}>
       <Loader
         type="Oval"
         color="rgba(139, 137, 137, 0.7)"
@@ -65,7 +65,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   deleteAccount,
-  fetchAccounts,
+  asyncFetchAccounts,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(BankAccounts);

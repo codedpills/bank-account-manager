@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addAccount } from "../store/accountActions";
+import { asyncAddAccount } from "../store/asyncAccountActions";
 
 class AddAccount extends Component {
   constructor(props) {
@@ -21,13 +21,13 @@ class AddAccount extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.addAccount(this.state);
+    this.props.asyncAddAccount(this.state);
     this.setState({
       accountName: "",
       accountNumber: "",
       accountType: "savings",
       bankName: "",
-      bankBranch: ""
+      bankBranch: "",
     });
     this.props.history.push("/");
   };
@@ -48,6 +48,7 @@ class AddAccount extends Component {
                     className="input"
                     type="text"
                     placeholder="Enter bank name e.g. UniBank"
+                    required
                     name="bankName"
                     onChange={this.handleChange}
                     value={this.state.bankName}
@@ -61,6 +62,7 @@ class AddAccount extends Component {
                     className="input"
                     type="text"
                     placeholder="Enter bank branch e.g. Accra main"
+                    required
                     name="bankBranch"
                     onChange={this.handleChange}
                     value={this.state.bankBranch}
@@ -74,6 +76,7 @@ class AddAccount extends Component {
                     className="input"
                     type="text"
                     placeholder="Enter account name e.g. Kwame Lewis"
+                    required
                     name="accountName"
                     onChange={this.handleChange}
                     value={this.state.accountName}
@@ -89,6 +92,7 @@ class AddAccount extends Component {
                     minLength={12}
                     maxLength={12}
                     placeholder="Enter account number e.g. 123456789102"
+                    required
                     name="accountNumber"
                     onChange={this.handleChange}
                     value={this.state.accountNumber}
@@ -101,6 +105,7 @@ class AddAccount extends Component {
                   <div className="select">
                     <select
                       name="accountType"
+                      required
                       onChange={this.handleChange}
                       value={this.state.accountType}
                     >
@@ -139,7 +144,7 @@ class AddAccount extends Component {
 }
 
 const mapDispatchToProps = {
-  addAccount,
+  asyncAddAccount,
 };
 
 export default connect(null, mapDispatchToProps)(AddAccount);

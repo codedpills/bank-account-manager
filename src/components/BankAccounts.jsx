@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import AccountInfo from "./AccountInfo";
-import { deleteAccount } from "../store/accountActions";
-import { asyncFetchAccounts } from "../store/asyncAccountActions";
+import { asyncFetchAccounts, asyncDeleteAccount } from "../store/asyncAccountActions";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
@@ -11,7 +10,7 @@ const BankAccounts = ({
   pending,
   error,
   asyncFetchAccounts,
-  deleteAccount,
+  asyncDeleteAccount,
 }) => {
   useEffect(() => {
     asyncFetchAccounts();
@@ -30,7 +29,7 @@ const BankAccounts = ({
           account_number={account.accountNumber}
           bank_name={account.bankName}
           bank_branch={account.bankBranch}
-          deleteAccount={deleteAccount}
+          deleteAccount={asyncDeleteAccount}
         />
       </div>
     );
@@ -64,7 +63,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  deleteAccount,
+  asyncDeleteAccount,
   asyncFetchAccounts,
 };
 

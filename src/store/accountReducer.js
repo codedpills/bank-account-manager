@@ -35,9 +35,9 @@ const accountReducer = (state = initialState, action) => {
       return { ...state, accounts: [...state.accounts, newAccount] };
     case DELETE_ACCOUNT:
       const filteredAccounts = state.accounts.filter(
-        (account) => account.id !== action.id
+        (account) => account._id !== action.id
       );
-      return { ...state, accounts: filteredAccounts };
+      return { ...state, accounts: filteredAccounts, pending: false};
     case EDIT_ACCOUNT:
       const editedAccounts = state.accounts.map((account) => {
         if (account.id === action.id) {
@@ -52,7 +52,7 @@ const accountReducer = (state = initialState, action) => {
         }
         return account;
       });
-      return { ...state, accounts: editedAccounts };
+      return { ...state, accounts: editedAccounts, pending: false };
     default:
       return state;
   }

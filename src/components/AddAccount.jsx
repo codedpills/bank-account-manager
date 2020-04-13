@@ -11,6 +11,7 @@ class AddAccount extends Component {
       accountType: "savings",
       bankName: "",
       bankBranch: "",
+      loading: false,
     };
   }
   handleChange = (e) => {
@@ -21,7 +22,23 @@ class AddAccount extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.asyncAddAccount(this.state, () => this.props.history.push("/"));
+    this.setState({loading: true})
+    this.props.asyncAddAccount(
+      this.state,
+      () => this.props.history.push("/"),
+      () =>
+        this.setState({
+          accountName: "",
+          accountNumber: "",
+          accountType: "",
+          bankName: "",
+          bankBranch: "",
+          loading: false,
+        }),
+      () => {
+        this.setState({ loading: false });
+      }
+    );
     this.setState({
       accountName: "",
       accountNumber: "",
@@ -34,10 +51,17 @@ class AddAccount extends Component {
     this.props.history.goBack();
   };
   render() {
+    const { error } = this.props;
+    const { loading } = this.state;
+    const isLoading = !loading ? "" : "is-loading";
+    const notification = (
+      <div class="notification is-danger is-light">{error && <p>error</p>}</div>
+    );
     return (
       <div className="container add-account-container">
         <div className="columns">
           <div className="column is-6 is-offset-3">
+            {error && notification}
             <h4 className="has-text-centered is-size-4">ADD A NEW ACCOUNT</h4>
             <form onSubmit={this.handleSubmit}>
               <div className="field">
@@ -120,7 +144,7 @@ class AddAccount extends Component {
                   <button
                     onClick={this.handleSubmit}
                     type="submit"
-                    className="button is-link"
+                    className={`button is-link ${isLoading}`}
                   >
                     Submit
                   </button>
@@ -142,8 +166,13 @@ class AddAccount extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  pending: state.pending,
+  error: state.error,
+});
+
 const mapDispatchToProps = {
   asyncAddAccount,
 };
 
-export default connect(null, mapDispatchToProps)(AddAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(AddAccount);

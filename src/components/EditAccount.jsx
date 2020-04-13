@@ -11,6 +11,7 @@ class EditAccount extends Component {
       accountType: props.account.accountType,
       bankName: props.account.bankName,
       bankBranch: props.account.bankBranch,
+      loading: false
     };
     this.id = props.match.params.id;
   }
@@ -22,25 +23,40 @@ class EditAccount extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.asyncEditAccount(this.id, this.state, () => {
-      this.props.history.goBack();
-    });
-    this.setState({
-      accountName: "",
-      accountNumber: "",
-      accountType: "",
-      bankName: "",
-      bankBranch: "",
-    });
+    this.setState({ loading: true });
+    this.props.asyncEditAccount(
+      this.id,
+      this.state,
+      () => {
+        this.props.history.goBack();
+      },
+      () =>
+        this.setState({
+          accountName: "",
+          accountNumber: "",
+          accountType: "",
+          bankName: "",
+          bankBranch: "",
+          loading: false,
+        }),
+        () => {this.setState({loading: false})}
+    );
   };
   handleGoBack = () => {
     this.props.history.push("/");
   };
   render() {
+    const { error } = this.props;
+    const { loading } = this.state;
+    const isLoading = !loading ? "" : "is-loading";
+    const notification = (
+      <div class="notification is-danger is-light">{error && <p>error</p>}</div>
+    );
     return (
       <div className="container add-account-container">
         <div className="columns">
           <div className="column is-6 is-offset-3">
+            {error && notification}
             <h4 className="has-text-centered is-size-4">
               UPDATE ACCOUNT INFORMATION
             </h4>
@@ -120,7 +136,7 @@ class EditAccount extends Component {
                   <button
                     onClick={this.handleSubmit}
                     type="submit"
-                    className="button is-danger"
+                    className={`button is-danger ${isLoading}`}
                   >
                     Update
                   </button>

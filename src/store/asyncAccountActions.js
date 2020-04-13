@@ -4,7 +4,7 @@ import {
   fetchAccountsError,
   addAccount,
   editAccount,
-  deleteAccount
+  deleteAccount,
 } from "./accountActions";
 
 const accountsAPIUrl = "http://localhost:5000/api/accounts";
@@ -27,7 +27,12 @@ export const asyncFetchAccounts = () => {
   };
 };
 
-export const asyncAddAccount = (account, redirect) => {
+export const asyncAddAccount = (
+  account,
+  redirect,
+  resetForm,
+  stopBtnLoader
+) => {
   return (dispatch) => {
     dispatch(fetchAccountsPending());
     fetch(accountsAPIUrl, {
@@ -40,17 +45,19 @@ export const asyncAddAccount = (account, redirect) => {
         (err) => {
           console.log(`An error occured: ${err}`);
           dispatch(fetchAccountsError(err));
+          stopBtnLoader();
         }
       )
       .then((account) => {
         console.log(account);
         dispatch(addAccount(account));
         redirect();
+        resetForm();
       });
   };
 };
 
-export const asyncEditAccount = (id, account, redirect) => {
+export const asyncEditAccount = (id, account, redirect, resetForm, stopBtnLoader) => {
   return (dispatch) => {
     dispatch(fetchAccountsPending());
     fetch(accountsAPIUrl + `/${id}`, {
@@ -63,12 +70,14 @@ export const asyncEditAccount = (id, account, redirect) => {
         (err) => {
           console.log(`An error occured: ${err}`);
           dispatch(fetchAccountsError(err));
+          stopBtnLoader();
         }
       )
       .then((account) => {
         console.log(account);
         dispatch(editAccount(id, account));
         redirect();
+        resetForm();
       });
   };
 };
@@ -77,16 +86,15 @@ export const asyncDeleteAccount = (id) => {
   return (dispatch) => {
     dispatch(fetchAccountsPending());
     fetch(accountsAPIUrl + `/${id}`, {
-      method: "DELETE"
-    })
-      .then(
-        (res) => {
-          dispatch(deleteAccount(id));
-        },
-        (err) => {
-          console.log(`An error occured: ${err}`);
-          dispatch(fetchAccountsError(err));
-        }
-      );
+      method: "DELETE",
+    }).then(
+      (res) => {
+        dispatch(deleteAccount(id));
+      },
+      (err) => {
+        console.log(`An error occured: ${err}`);
+        dispatch(fetchAccountsError(err));
+      }
+    );
   };
 };

@@ -3,7 +3,8 @@ import {
   fetchAccountsSuccess,
   fetchAccountsError,
   addAccount,
-  editAccount
+  editAccount,
+  deleteAccount
 } from "./accountActions";
 
 const accountsAPIUrl = "http://localhost:5000/api/accounts";
@@ -38,6 +39,7 @@ export const asyncAddAccount = (account) => {
         (res) => res.json(),
         (err) => {
           console.log(`An error occured: ${err}`);
+          dispatch(fetchAccountsError(err));
         }
       )
       .then((account) => {
@@ -59,11 +61,31 @@ export const asyncEditAccount = (id, account) => {
         (res) => res.json(),
         (err) => {
           console.log(`An error occured: ${err}`);
+          dispatch(fetchAccountsError(err));
         }
       )
       .then((account) => {
         console.log(account);
         dispatch(editAccount(id, account));
+      });
+  };
+};
+
+export const asyncDeleteAccount = (id) => {
+  return (dispatch) => {
+    dispatch(fetchAccountsPending());
+    fetch(accountsAPIUrl + `/${id}`, {
+      method: "DELETE"
+    })
+      .then(
+        (res) => res.json(),
+        (err) => {
+          console.log(`An error occured: ${err}`);
+          dispatch(fetchAccountsError(err));
+        }
+      )
+      .then((res) => {
+        dispatch(deleteAccount(id));
       });
   };
 };

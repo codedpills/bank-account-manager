@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { editAccount } from "../store/accountActions";
+import { asyncEditAccount } from "../store/asyncAccountActions";
 
 class EditAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account_name: props.account.account_name,
-      account_number: props.account.account_number,
-      account_type: props.account.account_type,
-      bank_name: props.account.bank_name,
-      bank_branch: props.account.bank_branch,
+      accountName: props.account.accountName,
+      accountNumber: props.account.accountNumber,
+      accountType: props.account.accountType,
+      bankName: props.account.bankName,
+      bankBranch: props.account.bankBranch,
     };
     this.id = props.match.params.id;
   }
@@ -22,13 +22,13 @@ class EditAccount extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.editAccount(this.id, this.state);
+    this.props.asyncEditAccount(this.id, this.state);
     this.setState({
-      account_name: "",
-      account_number: "",
-      account_type: "",
-      bank_name: "",
-      bank_branch: "",
+      accountName: "",
+      accountNumber: "",
+      accountType: "",
+      bankName: "",
+      bankBranch: "",
     });
     this.props.history.push("/");
   };
@@ -51,9 +51,9 @@ class EditAccount extends Component {
                     className="input"
                     type="text"
                     placeholder="Enter bank name e.g. UniBank"
-                    name="bank_name"
+                    name="bankName"
                     onChange={this.handleChange}
-                    value={this.state.bank_name}
+                    value={this.state.bankName}
                   />
                 </div>
               </div>
@@ -64,9 +64,9 @@ class EditAccount extends Component {
                     className="input"
                     type="text"
                     placeholder="Enter bank branch e.g. Accra main"
-                    name="bank_branch"
+                    name="bankBranch"
                     onChange={this.handleChange}
-                    value={this.state.bank_branch}
+                    value={this.state.bankBranch}
                   />
                 </div>
               </div>
@@ -77,9 +77,9 @@ class EditAccount extends Component {
                     className="input"
                     type="text"
                     placeholder="Enter account name e.g. Kwame Lewis"
-                    name="account_name"
+                    name="accountName"
                     onChange={this.handleChange}
-                    value={this.state.account_name}
+                    value={this.state.accountName}
                   />
                 </div>
               </div>
@@ -92,9 +92,9 @@ class EditAccount extends Component {
                     minLength={12}
                     maxLength={12}
                     placeholder="Enter account number e.g. 123456789102"
-                    name="account_number"
+                    name="accountNumber"
                     onChange={this.handleChange}
-                    value={this.state.account_number}
+                    value={this.state.accountNumber}
                   />
                 </div>
               </div>
@@ -103,9 +103,9 @@ class EditAccount extends Component {
                 <div className="control">
                   <div className="select">
                     <select
-                      name="account_type"
+                      name="accountType"
                       onChange={this.handleChange}
-                      value={this.state.account_type}
+                      value={this.state.accountType}
                     >
                       <option value="Savings">Select account type</option>
                       <option value="Savings">Savings</option>
@@ -143,12 +143,12 @@ class EditAccount extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   account: state.accounts.find(
-    (account) => account.id === ownProps.match.params.id
+    (account) => account._id === ownProps.match.params.id
   ),
 });
 
 const mapDispatchToProps = {
-  editAccount,
+  asyncEditAccount,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditAccount);

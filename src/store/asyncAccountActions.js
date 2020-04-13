@@ -27,7 +27,7 @@ export const asyncFetchAccounts = () => {
   };
 };
 
-export const asyncAddAccount = (account) => {
+export const asyncAddAccount = (account, redirect) => {
   return (dispatch) => {
     dispatch(fetchAccountsPending());
     fetch(accountsAPIUrl, {
@@ -45,11 +45,12 @@ export const asyncAddAccount = (account) => {
       .then((account) => {
         console.log(account);
         dispatch(addAccount(account));
+        redirect();
       });
   };
 };
 
-export const asyncEditAccount = (id, account) => {
+export const asyncEditAccount = (id, account, redirect) => {
   return (dispatch) => {
     dispatch(fetchAccountsPending());
     fetch(accountsAPIUrl + `/${id}`, {
@@ -67,6 +68,7 @@ export const asyncEditAccount = (id, account) => {
       .then((account) => {
         console.log(account);
         dispatch(editAccount(id, account));
+        redirect();
       });
   };
 };
@@ -78,14 +80,13 @@ export const asyncDeleteAccount = (id) => {
       method: "DELETE"
     })
       .then(
-        (res) => res.json(),
+        (res) => {
+          dispatch(deleteAccount(id));
+        },
         (err) => {
           console.log(`An error occured: ${err}`);
           dispatch(fetchAccountsError(err));
         }
-      )
-      .then((res) => {
-        dispatch(deleteAccount(id));
-      });
+      );
   };
 };

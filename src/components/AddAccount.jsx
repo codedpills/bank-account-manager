@@ -21,18 +21,17 @@ class AddAccount extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.asyncAddAccount(this.state);
+    this.props.asyncAddAccount(this.state, () => this.props.history.push("/"));
     this.setState({
       accountName: "",
       accountNumber: "",
-      accountType: "savings",
+      accountType: "Savings",
       bankName: "",
       bankBranch: "",
     });
-    this.props.history.push("/");
   };
   handleGoBack = () => {
-    this.props.history.push("/");
+    this.props.history.goBack();
   };
   render() {
     return (

@@ -3,6 +3,7 @@ import {
   fetchAccountsSuccess,
   fetchAccountsError,
   addAccount,
+  editAccount
 } from "./accountActions";
 
 const accountsAPIUrl = "http://localhost:5000/api/accounts";
@@ -42,6 +43,27 @@ export const asyncAddAccount = (account) => {
       .then((account) => {
         console.log(account);
         dispatch(addAccount(account));
+      });
+  };
+};
+
+export const asyncEditAccount = (id, account) => {
+  return (dispatch) => {
+    dispatch(fetchAccountsPending());
+    fetch(accountsAPIUrl + `/${id}`, {
+      method: "PUT",
+      headers: { "Content-type": "application/json;charset=utf-8" },
+      body: JSON.stringify(account),
+    })
+      .then(
+        (res) => res.json(),
+        (err) => {
+          console.log(`An error occured: ${err}`);
+        }
+      )
+      .then((account) => {
+        console.log(account);
+        dispatch(editAccount(id, account));
       });
   };
 };

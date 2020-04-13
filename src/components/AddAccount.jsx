@@ -6,11 +6,11 @@ class AddAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      account_name: "",
-      account_number: "",
-      account_type: "savings",
-      bank_name: "",
-      bank_branch: "",
+      accountName: "",
+      accountNumber: "",
+      accountType: "savings",
+      bankName: "",
+      bankBranch: "",
     };
   }
   handleChange = (e) => {
@@ -23,11 +23,11 @@ class AddAccount extends Component {
     e.preventDefault();
     this.props.addAccount(this.state);
     this.setState({
-      account_name: "",
-      account_number: "",
-      account_type: "savings",
-      bank_name: "",
-      bank_branch: ""
+      accountName: "",
+      accountNumber: "",
+      accountType: "savings",
+      bankName: "",
+      bankBranch: ""
     });
     this.props.history.push("/");
   };
@@ -48,9 +48,9 @@ class AddAccount extends Component {
                     className="input"
                     type="text"
                     placeholder="Enter bank name e.g. UniBank"
-                    name="bank_name"
+                    name="bankName"
                     onChange={this.handleChange}
-                    value={this.state.bank_name}
+                    value={this.state.bankName}
                   />
                 </div>
               </div>
@@ -61,9 +61,9 @@ class AddAccount extends Component {
                     className="input"
                     type="text"
                     placeholder="Enter bank branch e.g. Accra main"
-                    name="bank_branch"
+                    name="bankBranch"
                     onChange={this.handleChange}
-                    value={this.state.bank_branch}
+                    value={this.state.bankBranch}
                   />
                 </div>
               </div>
@@ -74,9 +74,9 @@ class AddAccount extends Component {
                     className="input"
                     type="text"
                     placeholder="Enter account name e.g. Kwame Lewis"
-                    name="account_name"
+                    name="accountName"
                     onChange={this.handleChange}
-                    value={this.state.account_name}
+                    value={this.state.accountName}
                   />
                 </div>
               </div>
@@ -89,9 +89,9 @@ class AddAccount extends Component {
                     minLength={12}
                     maxLength={12}
                     placeholder="Enter account number e.g. 123456789102"
-                    name="account_number"
+                    name="accountNumber"
                     onChange={this.handleChange}
-                    value={this.state.account_number}
+                    value={this.state.accountNumber}
                   />
                 </div>
               </div>
@@ -100,9 +100,9 @@ class AddAccount extends Component {
                 <div className="control">
                   <div className="select">
                     <select
-                      name="account_type"
+                      name="accountType"
                       onChange={this.handleChange}
-                      value={this.state.account_type}
+                      value={this.state.accountType}
                     >
                       <option value="Savings">Select account type</option>
                       <option value="Savings">Savings</option>

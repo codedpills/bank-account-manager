@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import AccountInfo from "./AccountInfo";
-import { asyncFetchAccounts, asyncDeleteAccount } from "../store/asyncAccountActions";
+import {
+  asyncFetchAccounts,
+  asyncDeleteAccount,
+} from "../store/asyncAccountActions";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
@@ -49,7 +52,9 @@ const BankAccounts = ({
   return (
     <div className="container bank-accounts-container">
       <div className="columns" style={{ flexWrap: "wrap" }}>
-        {error && <div className="has-text-centered">{error}</div>}
+        {error && (
+          <div className="has-text-centered has-text-danger">{error}</div>
+        )}
         {bankAccounts}
       </div>
     </div>

@@ -50,7 +50,7 @@ class EditAccount extends Component {
     const { loading } = this.state;
     const isLoading = !loading ? "" : "is-loading";
     const notification = (
-      <div class="notification is-danger is-light">{error && <p>error</p>}</div>
+      <div class="notification is-danger is-light">{error && <p>{error}</p>}</div>
     );
     return (
       <div className="container add-account-container">

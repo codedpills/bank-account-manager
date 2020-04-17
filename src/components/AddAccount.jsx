@@ -22,7 +22,7 @@ class AddAccount extends Component {
   };
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({loading: true})
+    this.setState({ loading: true });
     this.props.asyncAddAccount(
       this.state,
       () => this.props.history.push("/"),
@@ -39,13 +39,6 @@ class AddAccount extends Component {
         this.setState({ loading: false });
       }
     );
-    this.setState({
-      accountName: "",
-      accountNumber: "",
-      accountType: "Savings",
-      bankName: "",
-      bankBranch: "",
-    });
   };
   handleGoBack = () => {
     this.props.history.goBack();
@@ -55,7 +48,9 @@ class AddAccount extends Component {
     const { loading } = this.state;
     const isLoading = !loading ? "" : "is-loading";
     const notification = (
-      <div class="notification is-danger is-light">{error && <p>error</p>}</div>
+      <div className="notification is-danger is-light">
+        {error && <p>{error}</p>}
+      </div>
     );
     return (
       <div className="container add-account-container">

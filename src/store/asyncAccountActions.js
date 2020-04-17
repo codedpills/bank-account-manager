@@ -13,16 +13,18 @@ export const asyncFetchAccounts = () => {
   return (dispatch) => {
     dispatch(fetchAccountsPending());
     fetch(accountsAPIUrl)
-      .then(
-        (res) => res.json(),
-        (err) => {
-          console.log(`There was an error: ${err}`);
-          dispatch(fetchAccountsError(err));
-        }
-      )
+      .then((res) => res.json())
       .then((accounts) => {
         console.log(accounts);
         dispatch(fetchAccountsSuccess(accounts));
+      })
+      .catch((err) => {
+        console.log(`There was an error: ${err}`);
+        dispatch(
+          fetchAccountsError(
+            `${err}! Please check your connection and reload the page to try again.`
+          )
+        );
       });
   };
 };
@@ -49,7 +51,11 @@ export const asyncAddAccount = (
       })
       .catch((err) => {
         console.log(`An error occured: ${err}`);
-        dispatch(fetchAccountsError(`${err}! Please check your connection and try again.`));
+        dispatch(
+          fetchAccountsError(
+            `${err}! Please check your connection and try again.`
+          )
+        );
         stopBtnLoader();
       });
   };
@@ -69,19 +75,21 @@ export const asyncEditAccount = (
       headers: { "Content-type": "application/json;charset=utf-8" },
       body: JSON.stringify(account),
     })
-      .then(
-        (res) => res.json(),
-        (err) => {
-          console.log(`An error occured: ${err}`);
-          dispatch(fetchAccountsError(err));
-          stopBtnLoader();
-        }
-      )
+      .then((res) => res.json())
       .then((account) => {
         console.log(account);
         dispatch(editAccount(id, account));
         redirect();
         resetForm();
+      })
+      .catch((err) => {
+        console.log(`An error occured: ${err}`);
+        dispatch(
+          fetchAccountsError(
+            `${err}! Please check your connection and try again.`
+          )
+        );
+        stopBtnLoader();
       });
   };
 };
@@ -91,14 +99,17 @@ export const asyncDeleteAccount = (id) => {
     dispatch(fetchAccountsPending());
     fetch(accountsAPIUrl + `/${id}`, {
       method: "DELETE",
-    }).then(
-      (res) => {
+    })
+      .then((res) => {
         dispatch(deleteAccount(id));
-      },
-      (err) => {
+      })
+      .catch((err) => {
         console.log(`An error occured: ${err}`);
-        dispatch(fetchAccountsError(err));
-      }
-    );
+        dispatch(
+          fetchAccountsError(
+            `${err}! Please check your connection and try again.`
+          )
+        );
+      });
   };
 };

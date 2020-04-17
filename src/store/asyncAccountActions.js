@@ -79,8 +79,8 @@ export const asyncEditAccount = (
       .then((account) => {
         console.log(account);
         dispatch(editAccount(id, account));
-        redirect();
         resetForm();
+        redirect();
       })
       .catch((err) => {
         console.log(`An error occured: ${err}`);

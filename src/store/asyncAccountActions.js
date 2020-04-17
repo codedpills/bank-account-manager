@@ -40,24 +40,28 @@ export const asyncAddAccount = (
       headers: { "Content-type": "application/json;charset=utf-8" },
       body: JSON.stringify(account),
     })
-      .then(
-        (res) => res.json(),
-        (err) => {
-          console.log(`An error occured: ${err}`);
-          dispatch(fetchAccountsError(err));
-          stopBtnLoader();
-        }
-      )
+      .then((res) => res.json())
       .then((account) => {
         console.log(account);
         dispatch(addAccount(account));
-        redirect();
         resetForm();
+        redirect();
+      })
+      .catch((err) => {
+        console.log(`An error occured: ${err}`);
+        dispatch(fetchAccountsError(`${err}! Please check your connection and try again.`));
+        stopBtnLoader();
       });
   };
 };
 
-export const asyncEditAccount = (id, account, redirect, resetForm, stopBtnLoader) => {
+export const asyncEditAccount = (
+  id,
+  account,
+  redirect,
+  resetForm,
+  stopBtnLoader
+) => {
   return (dispatch) => {
     dispatch(fetchAccountsPending());
     fetch(accountsAPIUrl + `/${id}`, {
